@@ -56,6 +56,20 @@ module rv_core_test_tb ();
     //     $dumpfile("tb.fsdb");
     //     $dumpvars(0, rv_core_test_tb);
     // end
+	
+	
+	// Generate QUESTASIM wave
+	initial begin
+		// ===== 核心：Questasim全层级波形dump配置 =====
+		// 1. 创建波形文件（指定保存路径，Windows路径用/或\\）
+		$wlfdumpfile("wave.wlf");  // 波形文件保存为wave.wlf（Windows下建议放工程根目录）
+		// 2. dump全层级信号（top为你的顶层模块名，0表示dump所有子层级）
+		$wlfdumpvars(0, rv_core_test_tb);  // 等价于VCS的$fsdbDumpvars(0, top)
+		// 3. 可选：dump内存/数组（对应VCS的$fsdbDumpMDA）
+		$wlfdumpmda(0, rv_core_test_tb);   // 开启二维数组/内存信号的dump
+		// 4. 从仿真0时刻开始dump（避免漏初始状态）
+		$wlfdumpon(0);
+	end
 
     // 检查仿真的正确性与否
     initial begin

@@ -87,6 +87,7 @@ module ex (
                             ex_funct3_i == `INST_ANDI   |
                             ex_funct3_i == `INST_SLLI   |
                             ex_funct3_i == `INST_SRLI_SRAI ) ) ||
+                        // 这里funct3会自动包含M乘除法指令的
                         (ex_opcode_i == `INST_TYPE_R_M  && (
                             ex_funct3_i == `INST_ADD_SUB  |
                             ex_funct3_i == `INST_SLL      |
@@ -187,52 +188,103 @@ module ex (
                     ex_inst_rom_addr_o = rs1_plus_imm;
                 end
 
+                // R and M type inst
                 `INST_TYPE_R_M: begin
-                    case(ex_funct3_i)
-                        `INST_ADD_SUB:    begin
-                            ex_rd_reg_data_o = ex_funct7_i[5] ? (ex_rs1_reg_data_i - ex_rs2_reg_data_i) : (ex_rs1_reg_data_i + ex_rs2_reg_data_i);
-                            
+                    case(ex_funct7_i)
+                        // 除了减法指令和算数右移指令
+                        `INST_R_TYPE_FUNCT7_NORMAL: begin
+                            case(ex_funct3_i)
+                                `INST_ADD_SUB:    begin
+                                    ex_rd_reg_data_o = ex_rs1_reg_data_i + ex_rs2_reg_data_i;
+                                end
+                                // sll rd, rs1, rs2; x[rd] = x[rs1] << x[rs2]([4:0](RV32I),[5:0](RV64I))
+                                `INST_SLL:    begin
+                                    ex_rd_reg_data_o = ex_rs1_reg_data_i << ex_rs2_reg_data_i[4:0];
+                                    
+                                end
+                                `INST_SLT:    begin
+                                    ex_rd_reg_data_o = ($signed(ex_rs1_reg_data_i) < $signed(ex_rs2_reg_data_i)) ? 1 : 0;
+                                    
+                                end
+                                `INST_SLTU:    begin
+                                    ex_rd_reg_data_o = (ex_rs1_reg_data_i < ex_rs2_reg_data_i) ? 1 : 0;
+                                    
+                                end
+                                `INST_XOR:    begin
+                                    ex_rd_reg_data_o = ex_rs1_reg_data_i ^ ex_rs2_reg_data_i;
+                                    
+                                end
+                                `INST_SRA_SRL:    begin
+                                    // ex_rd_reg_data_o = ex_funct7_i[5] ? 
+                                    //                     $signed(($signed(ex_rs1_reg_data_i)) >>> ex_rs2_reg_data_i[4:0]): 
+                                    //                     (ex_rs1_reg_data_i >> ex_rs2_reg_data_i[4:0]);
+                                    if (ex_funct7_i[5]) begin
+                                        ex_rd_reg_data_o = $signed(ex_rs1_reg_data_i) >>> ex_rs2_reg_data_i[4:0];
+                                    end else begin
+                                        ex_rd_reg_data_o = ex_rs1_reg_data_i >> ex_rs2_reg_data_i[4:0];
+                                    end
+                                    
+                                end
+                                `INST_OR:    begin
+                                    ex_rd_reg_data_o = ex_rs1_reg_data_i | ex_rs2_reg_data_i;
+                                    
+                                end
+                                `INST_AND:    begin
+                                    ex_rd_reg_data_o = ex_rs1_reg_data_i & ex_rs2_reg_data_i;
+                                    
+                                end
+                                default:    begin
+                                    
+                                end
+                            endcase
                         end
-                        // sll rd, rs1, rs2; x[rd] = x[rs1] << x[rs2]([4:0](RV32I),[5:0](RV64I))
-                        `INST_SLL:    begin
-                            ex_rd_reg_data_o = ex_rs1_reg_data_i << ex_rs2_reg_data_i[4:0];
-                            
+                        `INST_R_TYPE_FUNCT7_REV: begin
+                            case(ex_funct3_i)
+                                `INST_ADD_SUB:    begin
+                                    ex_rd_reg_data_o = ex_rs1_reg_data_i + ex_rs2_reg_data_i;
+                                end
+                                `INST_SRA_SRL:    begin
+                                    ex_rd_reg_data_o = $signed(ex_rs1_reg_data_i) >>> ex_rs2_reg_data_i[4:0];
+                                end
+                                default:    begin
+                                    
+                                end
+                            endcase
                         end
-                        `INST_SLT:    begin
-                            ex_rd_reg_data_o = ($signed(ex_rs1_reg_data_i) < $signed(ex_rs2_reg_data_i)) ? 1 : 0;
-                            
+                        `INST_M_TYPE_FUNCT7: begin
+                            case(ex_funct3_i)
+                                `INST_MUL:    begin
+                                    ex_rd_reg_data_o = ex_rs1_reg_data_i * ex_rs2_reg_data_i;
+                                end
+                                `INST_MULH:   begin
+                                    ex_rd_reg_data_o = ($signed(ex_rs1_reg_data_i) * $signed(ex_rs2_reg_data_i)) >> 32;
+                                end
+                                `INST_MULHSU: begin
+                                    ex_rd_reg_data_o = ($signed(ex_rs1_reg_data_i) * $unsigned(ex_rs2_reg_data_i)) >>> 32;
+                                end
+                                `INST_MULHU:  begin
+                                    ex_rd_reg_data_o = ($unsigned(ex_rs1_reg_data_i) * $unsigned(ex_rs2_reg_data_i)) >> 32;
+                                end
+                                `INST_DIV:    begin
+                                    ex_rd_reg_data_o = ex_rs1_reg_data_i / ex_rs2_reg_data_i;
+                                end
+                                `INST_DIVU:   begin
+                                    ex_rd_reg_data_o = ex_rs1_reg_data_i / ex_rs2_reg_data_i;
+                                end
+                                `INST_REM:    begin
+                                    ex_rd_reg_data_o = ex_rs1_reg_data_i % ex_rs2_reg_data_i;
+                                end
+                                `INST_REMU:   begin
+                                    ex_rd_reg_data_o = ex_rs1_reg_data_i % ex_rs2_reg_data_i;
+                                end
+                            endcase
                         end
-                        `INST_SLTU:    begin
-                            ex_rd_reg_data_o = (ex_rs1_reg_data_i < ex_rs2_reg_data_i) ? 1 : 0;
-                            
+                        default: begin
+                            ex_rd_reg_data_o = `ZeroWord;
                         end
-                        `INST_XOR:    begin
-                            ex_rd_reg_data_o = ex_rs1_reg_data_i ^ ex_rs2_reg_data_i;
-                            
-                        end
-                        `INST_SRA_SRL:    begin
-                            // ex_rd_reg_data_o = ex_funct7_i[5] ? 
-                            //                     $signed(($signed(ex_rs1_reg_data_i)) >>> ex_rs2_reg_data_i[4:0]): 
-                            //                     (ex_rs1_reg_data_i >> ex_rs2_reg_data_i[4:0]);
-                            if (ex_funct7_i[5]) begin
-                                ex_rd_reg_data_o = $signed(ex_rs1_reg_data_i) >>> ex_rs2_reg_data_i[4:0];
-                            end else begin
-                                ex_rd_reg_data_o = ex_rs1_reg_data_i >> ex_rs2_reg_data_i[4:0];
-                            end
-                            
-                        end
-                        `INST_OR:    begin
-                            ex_rd_reg_data_o = ex_rs1_reg_data_i | ex_rs2_reg_data_i;
-                            
-                        end
-                        `INST_AND:    begin
-                            ex_rd_reg_data_o = ex_rs1_reg_data_i & ex_rs2_reg_data_i;
-                            
-                        end
-                        default:    begin
-                            
-                        end
+
                     endcase
+                    
                 end
                 // special J type inst --- begin
                 `INST_JAL: begin

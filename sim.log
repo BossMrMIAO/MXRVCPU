@@ -1,0 +1,129 @@
+# //  Questa Sim-64
+# //  Version 10.6c win64 Jul 26 2017
+# //
+# //  Copyright 1991-2017 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+# vsim -novopt work.rv_core_test_tb -wlf wave.wlf -l sim.log 
+# Start time: 00:35:19 on Feb 12,2026
+# ** Warning: (vsim-8891) All optimizations are turned off because the -novopt switch is in effect. This will cause your simulation to run very slowly. If you are using this switch to preserve visibility for Debug or PLI features please see the User's Manual section on Preserving Object Visibility with vopt.
+# Refreshing C:/Users/BossMrMIAO/Desktop/mxrvcpu-qsim/work.rv_core_test_tb
+# Loading sv_std.std
+# Loading work.rv_core_test_tb
+# Refreshing C:/Users/BossMrMIAO/Desktop/mxrvcpu-qsim/work.soc_core_top
+# Loading work.soc_core_top
+# Refreshing C:/Users/BossMrMIAO/Desktop/mxrvcpu-qsim/work.pc_reg
+# Loading work.pc_reg
+# Refreshing C:/Users/BossMrMIAO/Desktop/mxrvcpu-qsim/work.inst_rom
+# Loading work.inst_rom
+# Refreshing C:/Users/BossMrMIAO/Desktop/mxrvcpu-qsim/work.ifu
+# Loading work.ifu
+# Refreshing C:/Users/BossMrMIAO/Desktop/mxrvcpu-qsim/work.if_id_dff
+# Loading work.if_id_dff
+# Refreshing C:/Users/BossMrMIAO/Desktop/mxrvcpu-qsim/work.s_bits_dff
+# Loading work.s_bits_dff
+# Refreshing C:/Users/BossMrMIAO/Desktop/mxrvcpu-qsim/work.id
+# Loading work.id
+# Refreshing C:/Users/BossMrMIAO/Desktop/mxrvcpu-qsim/work.id_ex_dff
+# Loading work.id_ex_dff
+# Refreshing C:/Users/BossMrMIAO/Desktop/mxrvcpu-qsim/work.regu
+# Loading work.regu
+# Refreshing C:/Users/BossMrMIAO/Desktop/mxrvcpu-qsim/work.ex
+# Loading work.ex
+# Refreshing C:/Users/BossMrMIAO/Desktop/mxrvcpu-qsim/work.ex_mem_dff
+# Loading work.ex_mem_dff
+# Refreshing C:/Users/BossMrMIAO/Desktop/mxrvcpu-qsim/work.mem
+# Loading work.mem
+# Refreshing C:/Users/BossMrMIAO/Desktop/mxrvcpu-qsim/work.mem_wb_dff
+# Loading work.mem_wb_dff
+# Refreshing C:/Users/BossMrMIAO/Desktop/mxrvcpu-qsim/work.wb
+# Loading work.wb
+# Refreshing C:/Users/BossMrMIAO/Desktop/mxrvcpu-qsim/work.ctrl
+# Loading work.ctrl
+# Refreshing C:/Users/BossMrMIAO/Desktop/mxrvcpu-qsim/work.data_ram
+# Loading work.data_ram
+# Refreshing C:/Users/BossMrMIAO/Desktop/mxrvcpu-qsim/work.csr_reg
+# Loading work.csr_reg
+# ** Warning: (vsim-3017) ./hdl/core/soc_core_top.v(298): [TFMPC] - Too few port connections. Expected 33, found 29.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb/soc_core_top_inst/ex_inst File: ./hdl/core/ex.v
+# ** Warning: (vsim-3722) ./hdl/core/soc_core_top.v(298): [TFMPC] - Missing connection for port 'ex_csr_raddr_o'.
+# ** Warning: (vsim-3722) ./hdl/core/soc_core_top.v(298): [TFMPC] - Missing connection for port 'ex_csr_rdata_i'.
+# ** Warning: (vsim-3722) ./hdl/core/soc_core_top.v(298): [TFMPC] - Missing connection for port 'ex_csr_wdata_o'.
+# ** Warning: (vsim-3722) ./hdl/core/soc_core_top.v(298): [TFMPC] - Missing connection for port 'ex_div_busy_i'.
+# ** Warning: (vsim-3017) ./hdl/core/ex_mem_dff.v(53): [TFMPC] - Too few port connections. Expected 7, found 6.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb/soc_core_top_inst/ex_mem_dff_inst/u_s_bits_dff_ex_mem_dff_pc File: ./hdl/core/unit/s_bits_dff.v
+# ** Warning: (vsim-3722) ./hdl/core/ex_mem_dff.v(53): [TFMPC] - Missing connection for port 'hold_flag'.
+# ** Warning: (vsim-3017) ./hdl/core/ex_mem_dff.v(57): [TFMPC] - Too few port connections. Expected 7, found 6.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb/soc_core_top_inst/ex_mem_dff_inst/u_s_bits_dff_ex_mem_rd_wr_en File: ./hdl/core/unit/s_bits_dff.v
+# ** Warning: (vsim-3722) ./hdl/core/ex_mem_dff.v(57): [TFMPC] - Missing connection for port 'hold_flag'.
+# ** Warning: (vsim-3017) ./hdl/core/ex_mem_dff.v(61): [TFMPC] - Too few port connections. Expected 7, found 6.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb/soc_core_top_inst/ex_mem_dff_inst/u_s_bits_dff_ex_mem_rd_addr File: ./hdl/core/unit/s_bits_dff.v
+# ** Warning: (vsim-3722) ./hdl/core/ex_mem_dff.v(61): [TFMPC] - Missing connection for port 'hold_flag'.
+# ** Warning: (vsim-3017) ./hdl/core/ex_mem_dff.v(65): [TFMPC] - Too few port connections. Expected 7, found 6.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb/soc_core_top_inst/ex_mem_dff_inst/u_s_bits_dff_ex_mem_rd_reg_data File: ./hdl/core/unit/s_bits_dff.v
+# ** Warning: (vsim-3722) ./hdl/core/ex_mem_dff.v(65): [TFMPC] - Missing connection for port 'hold_flag'.
+# ** Warning: (vsim-3017) ./hdl/core/ex_mem_dff.v(69): [TFMPC] - Too few port connections. Expected 7, found 6.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb/soc_core_top_inst/ex_mem_dff_inst/u_s_bits_dff_ex_mem_data_ram_wr_en File: ./hdl/core/unit/s_bits_dff.v
+# ** Warning: (vsim-3722) ./hdl/core/ex_mem_dff.v(69): [TFMPC] - Missing connection for port 'hold_flag'.
+# ** Warning: (vsim-3017) ./hdl/core/ex_mem_dff.v(73): [TFMPC] - Too few port connections. Expected 7, found 6.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb/soc_core_top_inst/ex_mem_dff_inst/u_s_bits_dff_ex_mem_data_ram_addr File: ./hdl/core/unit/s_bits_dff.v
+# ** Warning: (vsim-3722) ./hdl/core/ex_mem_dff.v(73): [TFMPC] - Missing connection for port 'hold_flag'.
+# ** Warning: (vsim-3017) ./hdl/core/ex_mem_dff.v(77): [TFMPC] - Too few port connections. Expected 7, found 6.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb/soc_core_top_inst/ex_mem_dff_inst/u_s_bits_dff_ex_mem_inst_rom_wr_en File: ./hdl/core/unit/s_bits_dff.v
+# ** Warning: (vsim-3722) ./hdl/core/ex_mem_dff.v(77): [TFMPC] - Missing connection for port 'hold_flag'.
+# ** Warning: (vsim-3017) ./hdl/core/ex_mem_dff.v(81): [TFMPC] - Too few port connections. Expected 7, found 6.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb/soc_core_top_inst/ex_mem_dff_inst/u_s_bits_dff_ex_mem_inst_rom_addr File: ./hdl/core/unit/s_bits_dff.v
+# ** Warning: (vsim-3722) ./hdl/core/ex_mem_dff.v(81): [TFMPC] - Missing connection for port 'hold_flag'.
+# ** Warning: (vsim-3017) ./hdl/core/ex_mem_dff.v(85): [TFMPC] - Too few port connections. Expected 7, found 6.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb/soc_core_top_inst/ex_mem_dff_inst/u_s_bits_dff_ex_mem_opcode File: ./hdl/core/unit/s_bits_dff.v
+# ** Warning: (vsim-3722) ./hdl/core/ex_mem_dff.v(85): [TFMPC] - Missing connection for port 'hold_flag'.
+# ** Warning: (vsim-3017) ./hdl/core/ex_mem_dff.v(89): [TFMPC] - Too few port connections. Expected 7, found 6.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb/soc_core_top_inst/ex_mem_dff_inst/u_s_bits_dff_ex_mem_funct3 File: ./hdl/core/unit/s_bits_dff.v
+# ** Warning: (vsim-3722) ./hdl/core/ex_mem_dff.v(89): [TFMPC] - Missing connection for port 'hold_flag'.
+# ** Warning: (vsim-3017) ./hdl/core/ex_mem_dff.v(93): [TFMPC] - Too few port connections. Expected 7, found 6.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb/soc_core_top_inst/ex_mem_dff_inst/u_s_bits_dff_ex_mem_rs2_reg_data File: ./hdl/core/unit/s_bits_dff.v
+# ** Warning: (vsim-3722) ./hdl/core/ex_mem_dff.v(93): [TFMPC] - Missing connection for port 'hold_flag'.
+# ** Warning: (vsim-3017) ./hdl/core/soc_core_top.v(364): [TFMPC] - Too few port connections. Expected 32, found 25.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb/soc_core_top_inst/mem_inst File: ./hdl/core/mem.v
+# ** Warning: (vsim-3722) ./hdl/core/soc_core_top.v(364): [TFMPC] - Missing connection for port 'mem_csr_wr_en_o'.
+# ** Warning: (vsim-3722) ./hdl/core/soc_core_top.v(364): [TFMPC] - Missing connection for port 'mem_csr_addr_i'.
+# ** Warning: (vsim-3722) ./hdl/core/soc_core_top.v(364): [TFMPC] - Missing connection for port 'mem_csr_addr_o'.
+# ** Warning: (vsim-3722) ./hdl/core/soc_core_top.v(364): [TFMPC] - Missing connection for port 'mem_csr_wdata_o'.
+# ** Warning: (vsim-3722) ./hdl/core/soc_core_top.v(364): [TFMPC] - Missing connection for port 'mem_csr_rdata_i'.
+# ** Warning: (vsim-3722) ./hdl/core/soc_core_top.v(364): [TFMPC] - Missing connection for port 'mem_rs1_reg_data_i'.
+# ** Warning: (vsim-3722) ./hdl/core/soc_core_top.v(364): [TFMPC] - Missing connection for port 'mem_zimm_i'.
+# ** Warning: (vsim-3017) ./hdl/core/mem_wb_dff.v(31): [TFMPC] - Too few port connections. Expected 7, found 6.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb/soc_core_top_inst/mem_wb_dff_inst/u_s_bits_dff_mem_wb_dff_pc File: ./hdl/core/unit/s_bits_dff.v
+# ** Warning: (vsim-3722) ./hdl/core/mem_wb_dff.v(31): [TFMPC] - Missing connection for port 'hold_flag'.
+# ** Warning: (vsim-3017) ./hdl/core/mem_wb_dff.v(35): [TFMPC] - Too few port connections. Expected 7, found 6.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb/soc_core_top_inst/mem_wb_dff_inst/u_s_bits_dff_mem_wb_rd_wr_en File: ./hdl/core/unit/s_bits_dff.v
+# ** Warning: (vsim-3722) ./hdl/core/mem_wb_dff.v(35): [TFMPC] - Missing connection for port 'hold_flag'.
+# ** Warning: (vsim-3017) ./hdl/core/mem_wb_dff.v(39): [TFMPC] - Too few port connections. Expected 7, found 6.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb/soc_core_top_inst/mem_wb_dff_inst/u_s_bits_dff_mem_wb_rd_addr File: ./hdl/core/unit/s_bits_dff.v
+# ** Warning: (vsim-3722) ./hdl/core/mem_wb_dff.v(39): [TFMPC] - Missing connection for port 'hold_flag'.
+# ** Warning: (vsim-3017) ./hdl/core/mem_wb_dff.v(43): [TFMPC] - Too few port connections. Expected 7, found 6.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb/soc_core_top_inst/mem_wb_dff_inst/u_s_bits_dff_mem_wb_rd_reg_data File: ./hdl/core/unit/s_bits_dff.v
+# ** Warning: (vsim-3722) ./hdl/core/mem_wb_dff.v(43): [TFMPC] - Missing connection for port 'hold_flag'.
+# ** Warning: (vsim-3017) ./hdl/core/soc_core_top.v(406): [TFMPC] - Too few port connections. Expected 17, found 10.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb/soc_core_top_inst/wb_inst File: ./hdl/core/wb.v
+# ** Warning: (vsim-3722) ./hdl/core/soc_core_top.v(406): [TFMPC] - Missing connection for port 'wb_csr_wr_en_i'.
+# ** Warning: (vsim-3722) ./hdl/core/soc_core_top.v(406): [TFMPC] - Missing connection for port 'wb_csr_addr_i'.
+# ** Warning: (vsim-3722) ./hdl/core/soc_core_top.v(406): [TFMPC] - Missing connection for port 'wb_csr_wdata_i'.
+# ** Warning: (vsim-3722) ./hdl/core/soc_core_top.v(406): [TFMPC] - Missing connection for port 'wb_csr_wr_en_o'.
+# ** Warning: (vsim-3722) ./hdl/core/soc_core_top.v(406): [TFMPC] - Missing connection for port 'wb_csr_addr_o'.
+# ** Warning: (vsim-3722) ./hdl/core/soc_core_top.v(406): [TFMPC] - Missing connection for port 'wb_csr_wdata_o'.
+# ** Warning: (vsim-3722) ./hdl/core/soc_core_top.v(406): [TFMPC] - Missing connection for port 'wb_csr_inst_succ_flag_o'.
+# ** Warning: (vsim-PLI-3003) ./hvl/core/rv_core_test_tb.sv(65): [TOFD] - System task or function '$wlfdumpfile' is not defined.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb File: ./hvl/core/rv_core_test_tb.sv
+# ** Warning: (vsim-PLI-3003) ./hvl/core/rv_core_test_tb.sv(69): [TOFD] - System task or function '$wlfdumpmda' is not defined.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb File: ./hvl/core/rv_core_test_tb.sv
+# ** Warning: (vsim-PLI-3003) ./hvl/core/rv_core_test_tb.sv(71): [TOFD] - System task or function '$wlfdumpon' is not defined.
+#    Time: 0 ps  Iteration: 0  Instance: /rv_core_test_tb File: ./hvl/core/rv_core_test_tb.sv

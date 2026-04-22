@@ -108,6 +108,8 @@
 // R and M type inst
 `define INST_TYPE_R_M           7'b0110011
 // R type inst
+`define INST_R_TYPE_FUNCT7_NORMAL       7'b0000000 
+`define INST_R_TYPE_FUNCT7_REV          7'b0100000 
 `define INST_ADD_SUB            3'b000
 `define INST_SLL                3'b001
 `define INST_SLT                3'b010
@@ -116,7 +118,8 @@
 `define INST_SRA_SRL            3'b101
 `define INST_OR                 3'b110
 `define INST_AND                3'b111
-// M type inst          
+// M type inst
+`define INST_M_TYPE_FUNCT7      7'b0000001          
 `define INST_MUL                3'b000
 `define INST_MULH               3'b001
 `define INST_MULHSU             3'b010
@@ -125,6 +128,8 @@
 `define INST_DIVU               3'b101
 `define INST_REM                3'b110
 `define INST_REMU               3'b111
+
+
             
 // J type inst          
 `define INST_JAL                7'b1101111
@@ -146,6 +151,7 @@
 `define INST_BGE                3'b101
 `define INST_BLTU               3'b110
 `define INST_BGEU               3'b111
+
             
 // CSR inst         
 `define INST_CSR                7'b1110011

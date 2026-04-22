@@ -1,6 +1,6 @@
 // *****************************
 // s_bits_compare
-// function: compare if two input data are equal
+// function: compare whether two input data are equal
 // ********************************
 
 `include "../define.v"
