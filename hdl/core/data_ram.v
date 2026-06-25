@@ -1,6 +1,6 @@
 //***********************************************
 // data_rom
-// funtion: 数据存储器，用于SB，SW等指令
+// funtion: DATA_RAM, only to store the results of CPU running
 //***********************************************
 
 `include "define.v"
@@ -21,13 +21,14 @@ module data_ram (
 
     integer i;
 
+    // MEM read logic, immmediately return
     assign data_ram_rd_data_o = _DATA_RAM[data_ram_addr_i >> 2];
 
-    // 复位初始化内存数据与写入数据
+    // initial and MEM write logic, need reset all Zero due to not load instructions
     always @(posedge clk or negedge rst_n) begin : WRITE_LOGIC
         if(rst_n == `RstEnable) begin
-            // 先不要初始化，直接读入指令预设内容，signature，(这是之前的策略，为了使data_ram也存入指令)
-            // 现在需要他初始化，如果不初始化，导致原寄存器读取指令获得x态，分支不跳转，造成伪PASS
+            // now need to intialize to set all Zero 
+            // or the simulation results are ALL PASS due to state 'X' captured to mislead the simulation.
             for (i = 0; i < `DATA_RAM_DEPTH ; i=i+1) begin
                 _DATA_RAM[i] = `ZeroWord;
             end

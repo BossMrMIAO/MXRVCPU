@@ -7,11 +7,11 @@
 
 module ex_mem_dff (
 
-    // 全局时钟与异步复位
+    
     input clk,
     input rst_n,
 
-    // PC传递
+    // PC tranfer
     input[`PORT_ADDR_WIDTH]     ex_mem_dff_pc_i,
     output[`PORT_ADDR_WIDTH]    ex_mem_dff_pc_o,
 
@@ -24,20 +24,20 @@ module ex_mem_dff (
     output [`RegBusPort]           ex_mem_rd_reg_data_o,
 
     // signals to be tranfer from ex to mem, mem write them into memory
-    // 读写data_ram
+    // read write data_ram
     input                          ex_mem_data_ram_wr_en_i,
     input[`PORT_ADDR_WIDTH]        ex_mem_data_ram_addr_i,
     output                         ex_mem_data_ram_wr_en_o,
     output[`PORT_ADDR_WIDTH]       ex_mem_data_ram_addr_o,
 
     
-    // 读写inst_rom
+    // read write inst_rom
     input                          ex_mem_inst_rom_wr_en_i,
     input[`PORT_ADDR_WIDTH]        ex_mem_inst_rom_addr_i,
     output                         ex_mem_inst_rom_wr_en_o,
     output[`PORT_ADDR_WIDTH]       ex_mem_inst_rom_addr_o,
 
-    // 供mem使用的存储指令判别
+    // to MEM module to judge whether MEM INST or not
     input[`PORT_OPCODE_WIDTH]      ex_mem_opcode_i,
     input[`PORT_funct3_WIDTH]      ex_mem_funct3_i,
     input[`RegBusPort]             ex_mem_rs2_reg_data_i,
@@ -45,7 +45,7 @@ module ex_mem_dff (
     output[`PORT_funct3_WIDTH]     ex_mem_funct3_o,
     output[`RegBusPort]            ex_mem_rs2_reg_data_o,
 
-    // 来自ctrl冲刷信号
+    // flush from ex module to CTRL
     input                       ex_mem_dff_pipeline_flush_flag
     
 );

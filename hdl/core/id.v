@@ -7,15 +7,15 @@
 `include "define.v"
 
 module id (
-    // 全局时钟与异步复位
+    
     input                               clk,
     input                               rst_n,
-    // PC传递
+    // PC transfer
     input [`PORT_ADDR_WIDTH]            id_pc_i,
     output [`PORT_ADDR_WIDTH]           id_pc_o,
-    // 来自if_id_dff的指令
+    // INST from ifu_id_dff
     input[`PORT_DATA_WIDTH]             id_inst_data_i,
-    // 译码拆解信号
+    // signals after INST decode
     output wire[`PORT_OPCODE_WIDTH]     id_opcode_o,
     output reg[`PORT_REG_ADDR_WIDTH]    id_rd_addr_o,
     output wire[`PORT_funct3_WIDTH]     id_funct3_o,
@@ -27,11 +27,11 @@ module id (
     output reg[`PORT_WORD_WIDTH]        id_imm_o,
     output reg[`PORT_CSR_WIDTH]         id_csr_addr_o,
 
-    // 译码错误信号，执行单元收到此信号应抛出异常
+    // decode error
     output reg                          id_err_o
 );
 
-    // 固定连接, all inst use
+    // fix wire connection, all inst use
     assign id_pc_o = id_pc_i;
     assign id_opcode_o = rst_n == `RstEnable ? `Disable : id_inst_data_i[6:0];
     assign id_funct3_o = id_opcode_o == `Disable ? `Disable : 
@@ -40,7 +40,7 @@ module id (
                                                     id_opcode_o != `INST_JAL) ? id_inst_data_i[14:12] : 3'h0;
     // assign {rs1_req_rd_valid_o, rs2_req_rd_valid_o} = {`Enable, `Enable};
 
-    // 组合逻辑拆解指令
+    // different INST decode
     always @(*) begin : id_core
         if(rst_n == `RstEnable) begin
             id_rs1_addr_o = `Disable;
@@ -147,7 +147,7 @@ module id (
                             
                         end
                         `INST_FENCE_I:  begin
-                            // 暂时只是一个无条件跳转下一条指令的指令
+                            // <TODO> Now it jumps temporally
                         end
                     endcase
                 end 

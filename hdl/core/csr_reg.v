@@ -5,6 +5,7 @@
 // 只能读而不能写的寄存器无需在写指令中实现功能
 // 需要定义大量宏以提高可读性
 // 参考文档应当包含书籍或官方文档
+//**********************************
 
 `include "define.v"
 
@@ -34,6 +35,9 @@ module csr_reg (
     input[`RegBusPort]              csr_data_conflict2_i,
     input                           csr_wr_en_conflict2_i
     );
+
+
+    reg [31:0] csr_array [0:4095];
 
     // 浮点累计异常, RO
     reg[`RegBusPort] fflags;
@@ -92,6 +96,83 @@ module csr_reg (
     assign minstret = instret[31:0];
     assign minstreth = instret[63:32];
     
+
+    // 复位逻辑
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            csr_array[`CSR_MSTATUS]   <= 32'h00000000;
+            csr_array[`CSR_MISA]      <= 32'h40000100;  // RV32I
+            csr_array[`CSR_MTVEC]     <= 32'h00000000;
+            csr_array[`CSR_MEPC]      <= 32'h00000000;
+            csr_array[`CSR_MCAUSE]    <= 32'h00000000;
+            // ... 其他你需要的
+        end
+    end
+
+    // 读CSR寄存器逻辑
+    always @(*) begin
+        csr_rdata_o = csr_array[csr_raddr_i];
+    end
+
+    // 写CSR寄存器逻辑
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n);
+        else if (csr_we_i) begin
+            case (csr_waddr_i)
+                `CSR_MSTATUS : csr_array[`CSR_MSTATUS] <= csr_wdata_i;
+                `CSR_MIE     : csr_array[`CSR_MIE]     <= csr_wdata_i;
+                `CSR_MTVEC   : csr_array[`CSR_MTVEC]   <= csr_wdata_i;
+                `CSR_MSCRATCH: csr_array[`CSR_MSCRATCH]<= csr_wdata_i;
+                `CSR_MEPC    : csr_array[`CSR_MEPC]    <= csr_wdata_i;
+                `CSR_MCAUSE  : csr_array[`CSR_MCAUSE]  <= csr_wdata_i;
+                `CSR_MTVAL   : csr_array[`CSR_MTVAL]   <= csr_wdata_i;
+                // ... 其他可写寄存器
+            endcase
+        end
+    end
+
+    // mcycle 计数器
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n)
+            csr_array[`CSR_MCYCLE] <= 32'd0;
+        else
+            csr_array[`CSR_MCYCLE] <= csr_array[`CSR_MCYCLE] + 32'd1;
+    end
+
+    // minstret 指令计数器
+    always @(posedge clk or negedge rst_n) begin
+        if (!rst_n)
+            csr_array[`CSR_MINSTRET] <= 32'd0;
+        else if (csr_inst_succ_flag_i)  // 指令成功执行
+            csr_array[`CSR_MINSTRET] <= csr_array[`CSR_MINSTRET] + 32'd1;
+    end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // 周期计数: 时钟，复位，cycle寄存器
     always @(posedge clk or negedge rst_n) begin

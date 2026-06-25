@@ -7,11 +7,11 @@
 
 module if_id_dff (
 
-    // 全局时钟与异步复位
+    
     input clk,
     input rst_n,
 
-    // PC传递
+    // PC tranfer
     input[`PORT_ADDR_WIDTH]     ifu_id_dff_pc_i,
     output[`PORT_ADDR_WIDTH]    ifu_id_dff_pc_o,
 
@@ -19,9 +19,9 @@ module if_id_dff (
     input[`PORT_DATA_WIDTH]     ifu_id_dff_inst_data_i,
     output[`PORT_DATA_WIDTH]    ifu_id_dff_inst_data_o,
 
-    // 来自ctrl冲刷信号
+    // pipeline flush from CTRL module
     input                       if_id_dff_pipeline_flush_flag,
-    // 来自ctrl保持信号
+    // pipeline hold from CTRL module
     input                       if_id_dff_pipeline_hold_flag
     
 );

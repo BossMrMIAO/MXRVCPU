@@ -11,12 +11,12 @@ PC_REG,
 
 
 module soc_core_top (
-    // 全局时钟与异步复位
+
     input   clk,
     input   rst_n
 );
 
-    // 内核各组件之间连接线
+    // internal wire connection
 
     // pc_reg ---> ifu
     wire[`PORT_ADDR_WIDTH]      pc_reg_ifu_pc;
@@ -183,7 +183,7 @@ module soc_core_top (
 
 
 
-// 实例化SOC内核
+// instant SOC core base modules
     pc_reg  pc_reg_inst (
         .clk(clk),
         .rst_n(rst_n),

@@ -1,6 +1,6 @@
 //***********************************************
 // inst_rom
-// funtion: 存储指令，一般按顺序寻址，由pc值来寻址，本质是多路选择器
+// funtion: ROM, to load local instructions and store the results of CPU running 
 //***********************************************
 
 `include "define.v"
@@ -8,12 +8,12 @@
 module inst_rom (
     input clk,
     input rst_n,
-    // 来自ifu的pc地址(实际上是来自于pc_reg的)
+    // address for IFU (actually from PC_REG)
     input[`PORT_ADDR_WIDTH]         inst_rom_pc_i,
-    // 送给ifu的指令内容
+    // the instruction sent to IFU
     output[`PORT_DATA_WIDTH]        inst_rom_inst_data_o,
 
-    // 指令存储器,给memc操作存储器使用
+    // interface for MEM to read or write INST_ROM when operating STORAGE related INST
     input[`PORT_ADDR_WIDTH]         inst_rom_addr_i,
     input[`PORT_DATA_WIDTH]         inst_rom_wr_data_i,
     input                           inst_rom_wr_en_i,    
@@ -24,13 +24,14 @@ module inst_rom (
 
     integer i;
 
+    // read data logic, immediately return
     assign inst_rom_inst_data_o = _INST_ROM[inst_rom_pc_i >> 2];
     assign inst_rom_rd_data_o = _INST_ROM[inst_rom_addr_i >> 2];
 
-    // 复位初始化内存数据与写入数据
+    // initial and write data from MEM
     always @(posedge clk or negedge rst_n) begin : WRITE_LOGIC
         if(rst_n == `RstEnable) begin
-            // 先不要初始化，直接读入指令预设内容，signature
+            // not initialize, load INST from binary file directly
             // for (i = 0; i < `DATA_RAM_DEPTH ; i=i+1) begin
             //     _DATA_RAM[i] = `ZeroWord;
             // end

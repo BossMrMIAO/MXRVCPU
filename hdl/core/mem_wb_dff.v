@@ -7,11 +7,11 @@
 
 module mem_wb_dff (
 
-    // 全局时钟与异步复位
+    
     input clk,
     input rst_n,
 
-    // PC传递
+    // PC transfer
     input[`PORT_ADDR_WIDTH]     mem_wb_dff_pc_i,
     output[`PORT_ADDR_WIDTH]    mem_wb_dff_pc_o,
 
@@ -23,7 +23,7 @@ module mem_wb_dff (
     output [`PORT_REG_ADDR_WIDTH]  mem_wb_rd_addr_o,
     output [`RegBusPort]           mem_wb_rd_reg_data_o,
 
-    // 来自ctrl冲刷信号
+    // flush from CTRL
     input                       mem_wb_dff_pipeline_flush_flag
     
 );

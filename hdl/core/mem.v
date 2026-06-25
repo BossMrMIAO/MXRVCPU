@@ -1,11 +1,11 @@
 `include "define.v"
 
 module mem (
-    // 全局时钟与异步复位
+    
     input clk,
     input rst_n,
 
-    // PC传递
+    // PC tranfer
     input[`PORT_ADDR_WIDTH]     mem_pc_i,
     output[`PORT_ADDR_WIDTH]    mem_pc_o,
 
@@ -16,13 +16,13 @@ module mem (
     output reg                     mem_rd_wr_en_o,
     output [`PORT_REG_ADDR_WIDTH]  mem_rd_addr_o,
     output reg[`RegBusPort]        mem_rd_reg_data_o,
-    // 指令类型指示器
+    // show which type of INST
     input[`PORT_OPCODE_WIDTH]      mem_opcode_i,
     input[`PORT_funct3_WIDTH]      mem_funct3_i,
 
     // signals to be tranfer from ex to mem, mem write them into memory
     // input                          mem_arch_flag_i,
-    // 读写data_ram
+    // read write data_ram
     input                          mem_data_ram_wr_en_i,
     input[`PORT_ADDR_WIDTH]        mem_data_ram_addr_i,
 
@@ -30,7 +30,7 @@ module mem (
     output                         mem_data_ram_wr_en_o,
     output[`PORT_ADDR_WIDTH]       mem_data_ram_addr_o,
     output reg[`PORT_DATA_WIDTH]   mem_data_ram_wr_data_o,
-    // 读写inst_rom
+    // read writeinst_rom
     input                          mem_inst_rom_wr_en_i,
     input[`PORT_ADDR_WIDTH]        mem_inst_rom_addr_i,
 
@@ -200,7 +200,7 @@ module mem (
                     `INST_CSRRW:    begin
                         mem_csr_addr_o = mem_csr_addr_i;
                         t = mem_csr_rdata_i;
-                        mem_csr_wdata_o = mem_rs1_reg_data_i;//rs1的值由mem获得，不对这里应当由id译码部分获得
+                        mem_csr_wdata_o = mem_rs1_reg_data_i;//rs1 from id module
                         mem_rd_reg_data_o = t;
                     end 
                     `INST_CSRRS:    begin
@@ -239,9 +239,9 @@ module mem (
             end
 
             default : begin
-                // 其他指令不需要特殊处理,其写入寄存器的值由ex阶段传递过来
+                // Due to WRITEing process by  WB module, so rd_reg data and wr_en should be transfered to WB
                 mem_rd_reg_data_o = mem_rd_reg_data_i;
-                // ex阶段不使能写reg信号，因为正确的来自mem的data尚未产生，对T+1指令源寄存器数据冲突
+                // wr_en signal should be transfered  or  the reg_data will be decoded from T+1 cycle INST
                 mem_rd_wr_en_o = mem_rd_wr_en_i;
             end
         endcase

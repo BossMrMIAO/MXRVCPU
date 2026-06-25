@@ -170,7 +170,7 @@
 `define INST_ECALL              32'h73
 `define INST_EBREAK             32'h00100073
 
-// 寄存器
+// General registers
 `define x0      5'd0
 `define zero    5'd0
 `define x1      5'd1
@@ -235,3 +235,9 @@
 `define t5      5'd30
 `define x31     5'd31
 `define t6      5'd31
+
+
+
+
+
+

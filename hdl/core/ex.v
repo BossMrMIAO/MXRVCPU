@@ -11,15 +11,15 @@ module ex (
     input clk,
     input rst_n,
 
-    // PC值传递
+    // PC tranfer
     input[`PORT_ADDR_WIDTH]             ex_pc_i,
     output[`PORT_ADDR_WIDTH]            ex_pc_o,
 
-    // 控制单元跳转标志，跳转地址PC_jump
+    // JAL type INST use to call jump address
     output                              ex_pc_jump_flag,
     output reg[`PORT_ADDR_WIDTH]        ex_pc_jump_o,
 
-    // 从指令译码中获得输入数据
+    // get splited data from INST decode
     input[`PORT_OPCODE_WIDTH]           ex_opcode_i,
     input[`PORT_REG_ADDR_WIDTH]         ex_rd_addr_i,
     input[`PORT_funct3_WIDTH]           ex_funct3_i,
@@ -31,42 +31,42 @@ module ex (
     input[`PORT_WORD_WIDTH]             ex_imm_i,
     input[`PORT_CSR_WIDTH]              ex_csr_addr_i,
 
-    // 结果寄存器数值   
+    // 2 source general register value   
     input[`RegBusPort]                  ex_rs1_reg_data_i,
     input[`RegBusPort]                  ex_rs2_reg_data_i,
 
-    // 回写寄存器   
+    // 1 destination register value after excution   
     output                              ex_rd_wr_en_o,
     output wire[`PORT_REG_ADDR_WIDTH]   ex_rd_addr_o,
     output reg[`RegBusPort]             ex_rd_reg_data_o,
-    // LOAD/SAVE指令的存储器地址与写使能, data_ram
+    // LOAD/SAVE INST, write to data_ram
     output                              ex_data_ram_wr_en_o,
     output reg[`PORT_ADDR_WIDTH]        ex_data_ram_addr_o,
-    // LOAD/SAVE指令的存储器地址与写使能, inst_rom
+    // LOAD/SAVE INST, write to inst_rom
     output                              ex_inst_rom_wr_en_o,
     output reg[`PORT_ADDR_WIDTH]        ex_inst_rom_addr_o,
-    // 给出mem需要的参数以判定是否为存储性指令
+    // MEM need know this INST is MEM type INST ahead 1 cycle
     output[`PORT_OPCODE_WIDTH]          ex_mem_opcode_o,
     output[`PORT_funct3_WIDTH]          ex_mem_funct3_o,
-    // 写入存储器指令需要的rs2寄存器数据
+    // offer rs2 data to MEM module to execute some MEM INST
     output[`RegBusPort]                 ex_mem_rs2_reg_data_o,
  
 
-    // 读取CSR寄存器，因为CSR寄存器相关指令在ex阶段获取CSR寄存器的值
+    // operate CSR_REG value
     output reg[`CsrRegAddrBusPort]      ex_csr_raddr_o,
     input[`RegBusPort]                  ex_csr_rdata_i, 
     output reg[`RegBusPort]             ex_csr_wdata_o,
     
-    // 接控制单元   
+    // to CTRL, let CTRL know when to hold pipeline   
     output reg                          ex_hold_flag_o,
     
-    // 接除法器 
+    // DIV module inform DIV module busy or not
     input                               ex_div_busy_i
 
 );  
 
     wire[`PORT_WORD_WIDTH] rs1_plus_imm;
-    // 用于csrrw指令和csrrs等指令的暂存
+    // to store temporally data from CSR_REG
     reg[`RegBusPort]        t;
 
 
@@ -130,7 +130,7 @@ module ex (
                   
                                           
 
-    // 组合逻辑执行指令操作
+    // core execution part
     always @(*) begin : ex_core
         if (!rst_n) begin : rst
             ex_pc_jump_o = `ZeroWord;
@@ -181,7 +181,7 @@ module ex (
                         end
                     endcase
                 end
-                // 所有LOAD/SAVE指令读取存储器数据全部交由mem模块处理，ex模块只负责计算存储器地址
+				// ALL LOAD/SAVE INST get data only when in MEM module, EX module only calculate the address of destionation memory
                 `INST_TYPE_L, `INST_TYPE_S: begin
                     ex_data_ram_addr_o = rs1_plus_imm;
                     // 为满足冯诺依曼结构的指令测试序列，增加一个相当于单存储器的操作需求，否则后续save后读取不能实现
@@ -191,10 +191,10 @@ module ex (
                 // R and M type inst
                 `INST_TYPE_R_M: begin
                     case(ex_funct7_i)
-                        // 除了减法指令和算数右移指令
+                        // except SUB INST & DIV INST
                         `INST_R_TYPE_FUNCT7_NORMAL: begin
                             case(ex_funct3_i)
-                                `INST_ADD_SUB:    begin
+                                `INST_ADD_SUB:    begin // ADD
                                     ex_rd_reg_data_o = ex_rs1_reg_data_i + ex_rs2_reg_data_i;
                                 end
                                 // sll rd, rs1, rs2; x[rd] = x[rs1] << x[rs2]([4:0](RV32I),[5:0](RV64I))
@@ -240,8 +240,8 @@ module ex (
                         end
                         `INST_R_TYPE_FUNCT7_REV: begin
                             case(ex_funct3_i)
-                                `INST_ADD_SUB:    begin
-                                    ex_rd_reg_data_o = ex_rs1_reg_data_i + ex_rs2_reg_data_i;
+                                `INST_ADD_SUB:    begin // SUB
+                                    ex_rd_reg_data_o = ex_rs1_reg_data_i - ex_rs2_reg_data_i;
                                 end
                                 `INST_SRA_SRL:    begin
                                     ex_rd_reg_data_o = $signed(ex_rs1_reg_data_i) >>> ex_rs2_reg_data_i[4:0];

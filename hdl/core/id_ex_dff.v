@@ -41,9 +41,9 @@ module id_ex_dff #(
     input[`RegBusPort]              id_ex_dff_rs1_reg_data_i, id_ex_dff_rs2_reg_data_i,
     output[`RegBusPort]             id_ex_dff_rs1_reg_data_o, id_ex_dff_rs2_reg_data_o,
 
-    // 来自ctrl冲刷信号
+    // flush from CTRL
     input                           id_ex_dff_pipeline_flush_flag,
-    // 来自ctrl保持信号
+    // hold from CTRL
     input                           id_ex_dff_pipeline_hold_flag
 
 

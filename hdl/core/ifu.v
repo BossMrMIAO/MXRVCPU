@@ -10,16 +10,16 @@
 `include "define.v"
 
 module ifu (
-    // 全局时钟与异步复位
+    
     input                                   clk,
     input                                   rst_n,
-    // 传递来自pc_reg的pc地址
+    // tranfer pc address from  PC_REG
     input[`PORT_ADDR_WIDTH]                 ifu_pc_i,
     output[`PORT_ADDR_WIDTH]                ifu_pc_o,
-    // 传递来自inst_rom的pc地址，以此规范化此单元为取指单元
+    // tranfer pc to next module
     output[`PORT_ADDR_WIDTH]                ifu_inst_rom_pc_o,
 
-    // 传递来自指令存储器的执行指令
+    // get INST from INST_ROM then tranfer to next module
     input[`PORT_DATA_WIDTH]                 ifu_inst_data_i,
     output[`PORT_DATA_WIDTH]                ifu_inst_data_o
 );
